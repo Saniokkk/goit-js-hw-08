@@ -9,11 +9,19 @@ import throttle from 'lodash/throttle';
         localStorage.setItem("videoplayer-current-time", currentTime)
     }, 1000);
 
-    player.on('timeupdate', onPlay);
-console.log(localStorage.getItem("videoplayer-current-time"));
+    player.on('timeupdate', onPlay);    
 
-player.getCurrentTime().then(function(seconds) {
-    // seconds = the current playback position
-}).catch(function(error) {
-    // an error occurred
-});
+    const seconds = localStorage.getItem("videoplayer-current-time");
+
+    if (seconds) {
+    player.setCurrentTime(seconds)
+        .then(function (seconds) { })
+        .catch(function (error) {
+        switch (error.name) {
+            case 'RangeError':
+                break;
+            default:
+                break;
+            }
+        });
+    }

@@ -2,7 +2,7 @@ import throttle from 'lodash/throttle';
 
 
 const feedbackForm = document.querySelector('.feedback-form');
-const feedbackFormState = {};
+let feedbackFormState = {};
 checkLocaleStorage()
 
 feedbackForm.addEventListener('input', throttle(completeInputInStorage, 500));
@@ -18,9 +18,15 @@ function completeInputInStorage(event) {
 
 function clickOnSubmit(event) {
     event.preventDefault();
-    event.currentTarget.reset();
-    console.log(feedbackFormState);
-    localStorage.removeItem("feedback-form-state");
+    if (event.target.email.value === ''
+        || event.target.message.value === '') {
+        alert('Все поля должны быть заполнены!!!');
+    } else {
+        event.currentTarget.reset();
+        console.log(feedbackFormState);
+        localStorage.removeItem("feedback-form-state");
+        feedbackFormState = {};
+    }
 };
 
 function checkLocaleStorage() {
